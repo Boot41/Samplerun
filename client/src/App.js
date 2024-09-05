@@ -19,7 +19,6 @@ function App() {
           <Routes>
             <Route path="/" element={<p>Welcome to the Home Page!</p>} />
             <Route path="/employer-dashboard" element={<EmployerDashboard />} />
-            <Route path="/employer-dashboard" element={<EmployerDashboard />} /> {/* Added path for Employer Dashboard */}
           </Routes>
           <a
             className="App-link"
