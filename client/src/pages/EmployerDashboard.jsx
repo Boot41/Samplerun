@@ -1,22 +1,16 @@
 import React from 'react';
 import Header from './Header';
-import Footer from './Footer';
 import JobPostingForm from './JobPostingForm';
 import JobListingManager from './JobListingManager';
 
 const EmployerDashboard = () => {
   return (
-    <div className="flex flex-col h-screen bg-white">
-      <Header />
-      <div className="flex flex-grow">
-        <div className="w-1/3 bg-light-blue-100 p-4 shadow-md">
-          <JobPostingForm />
-        </div>
-        <div className="w-2/3 p-4">
-          <JobListingManager />
-        </div>
-      </div>
-      <Footer />
+    <div className="flex flex-col min-h-screen bg-white">
+      <Header className="shadow-md sticky top-0 z-10" />
+      <main className="flex-grow p-4">
+        <JobPostingForm className="shadow-lg my-4" />
+        <JobListingManager className="bg-light-gray p-4 rounded-lg shadow-md" />
+      </main>
     </div>
   );
 };

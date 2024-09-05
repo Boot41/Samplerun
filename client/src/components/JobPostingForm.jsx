@@ -1,166 +1,108 @@
 import React, { useState } from 'react';
 
-const JobPostingForm = ({ onSubmit }) => {
-  const [jobTitle, setJobTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [requirements, setRequirements] = useState('');
-  const [location, setLocation] = useState('');
-  const [jobType, setJobType] = useState('');
-  const [deadline, setDeadline] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+const JobPostingForm = () => {
+    const [jobTitle, setJobTitle] = useState('');
+    const [companyName, setCompanyName] = useState('');
+    const [jobDescription, setJobDescription] = useState('');
+    const [applicationDeadline, setApplicationDeadline] = useState('');
+    const [skills, setSkills] = useState(['']);
+    const [feedback, setFeedback] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
+    const handleSkillChange = (index, value) => {
+        const newSkills = [...skills];
+        newSkills[index] = value;
+        setSkills(newSkills);
+    };
 
-    // Basic validation
-    if (!jobTitle || !description || !requirements) {
-      setError('Please fill out all required fields.');
-      setLoading(false);
-      return;
-    }
+    const addSkill = () => {
+        setSkills([...skills, '']);
+    };
 
-    onSubmit({ jobTitle, description, requirements, location, jobType, deadline });
-    setLoading(false);
-    alert('Job posted successfully!');
-  };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!jobTitle || !companyName || !jobDescription || !applicationDeadline || skills.some(skill => !skill)) {
+            setFeedback('All fields are required.');
+            return;
+        }
+        setFeedback('Job Posted Successfully!');
+        // Implement submission logic here
+    };
 
-  return (
-    <form 
-      onSubmit={handleSubmit} 
-      style={{ 
-        background: '#FFFFFF', 
-        padding: '24px', 
-        borderRadius: '4px', 
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', 
-        maxWidth: '600px', 
-        margin: 'auto' 
-      }}
-    >
-      <h2 style={{ fontFamily: '"Roboto", sans-serif', fontWeight: '700', fontSize: '24px', color: '#212121' }}>Job Posting Form</h2>
-      {error && <p style={{ color: '#F44336' }}>{error}</p>}
-      <div style={{ marginBottom: '16px' }}>
-        <label style={{ display: 'block', marginBottom: '8px', color: '#757575' }}>Job Title</label>
-        <input 
-          type="text" 
-          value={jobTitle} 
-          onChange={(e) => setJobTitle(e.target.value)} 
-          placeholder="Enter job title" 
-          required 
-          style={{ 
-            width: '100%', 
-            padding: '8px', 
-            borderRadius: '4px', 
-            border: '1px solid #E0E0E0', 
-            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)', 
-            fontSize: '14px' 
-          }} 
-        />
-      </div>
-      <div style={{ marginBottom: '16px' }}>
-        <label style={{ display: 'block', marginBottom: '8px', color: '#757575' }}>Description</label>
-        <textarea 
-          value={description} 
-          onChange={(e) => setDescription(e.target.value)} 
-          placeholder="Enter job description" 
-          required 
-          style={{ 
-            width: '100%', 
-            padding: '8px', 
-            borderRadius: '4px', 
-            border: '1px solid #E0E0E0', 
-            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)', 
-            fontSize: '14px' 
-          }} 
-        />
-      </div>
-      <div style={{ marginBottom: '16px' }}>
-        <label style={{ display: 'block', marginBottom: '8px', color: '#757575' }}>Requirements</label>
-        <textarea 
-          value={requirements} 
-          onChange={(e) => setRequirements(e.target.value)} 
-          placeholder="Enter job requirements" 
-          required 
-          style={{ 
-            width: '100%', 
-            padding: '8px', 
-            borderRadius: '4px', 
-            border: '1px solid #E0E0E0', 
-            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)', 
-            fontSize: '14px' 
-          }} 
-        />
-      </div>
-      <div style={{ marginBottom: '16px' }}>
-        <label style={{ display: 'block', marginBottom: '8px', color: '#757575' }}>Location</label>
-        <input 
-          type="text" 
-          value={location} 
-          onChange={(e) => setLocation(e.target.value)} 
-          placeholder="Enter job location" 
-          style={{ 
-            width: '100%', 
-            padding: '8px', 
-            borderRadius: '4px', 
-            border: '1px solid #E0E0E0', 
-            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)', 
-            fontSize: '14px' 
-          }} 
-        />
-      </div>
-      <div style={{ marginBottom: '16px' }}>
-        <label style={{ display: 'block', marginBottom: '8px', color: '#757575' }}>Job Type</label>
-        <input 
-          type="text" 
-          value={jobType} 
-          onChange={(e) => setJobType(e.target.value)} 
-          placeholder="Enter job type" 
-          style={{ 
-            width: '100%', 
-            padding: '8px', 
-            borderRadius: '4px', 
-            border: '1px solid #E0E0E0', 
-            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)', 
-            fontSize: '14px' 
-          }} 
-        />
-      </div>
-      <div style={{ marginBottom: '24px' }}>
-        <label style={{ display: 'block', marginBottom: '8px', color: '#757575' }}>Application Deadline</label>
-        <input 
-          type="date" 
-          value={deadline} 
-          onChange={(e) => setDeadline(e.target.value)} 
-          style={{ 
-            width: '100%', 
-            padding: '8px', 
-            borderRadius: '4px', 
-            border: '1px solid #E0E0E0', 
-            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)', 
-            fontSize: '14px' 
-          }} 
-        />
-      </div>
-      <button 
-        type="submit" 
-        style={{ 
-          background: '#4CAF50', 
-          color: '#FFFFFF', 
-          padding: '12px 24px', 
-          borderRadius: '4px', 
-          border: 'none', 
-          cursor: 'pointer', 
-          transition: '0.3s ease-in-out' 
-        }} 
-        onMouseEnter={(e) => e.currentTarget.style.background = '#388E3C'} 
-        onMouseLeave={(e) => e.currentTarget.style.background = '#4CAF50'}
-      >
-        {loading ? 'Submitting...' : 'Submit'}
-      </button>
-    </form>
-  );
+    return (
+        <form 
+            onSubmit={handleSubmit} 
+            style={{
+              backgroundColor: 'lightgray', 
+              padding: '15px', 
+              borderRadius: '5px', 
+              width: '100%', 
+              maxWidth: '600px',
+              margin: 'auto',
+              display: 'flex',
+              flexDirection: 'column',
+            }}>
+            <label style={{ fontSize: '16px', marginBottom: '5px' }}>Job Title</label>
+            <input 
+                type="text" 
+                value={jobTitle} 
+                onChange={(e) => setJobTitle(e.target.value)} 
+                style={{ fontSize: '16px', marginBottom: '15px', padding: '10px', borderRadius: '5px', border: '1px solid gray' }} 
+                aria-label="Job Title" 
+            />
+            <label style={{ fontSize: '14px', marginBottom: '5px' }}>Company Name</label>
+            <input 
+                type="text" 
+                value={companyName} 
+                onChange={(e) => setCompanyName(e.target.value)} 
+                style={{ fontSize: '14px', marginBottom: '15px', padding: '10px', borderRadius: '5px', border: '1px solid gray' }} 
+                aria-label="Company Name" 
+            />
+            <label style={{ fontSize: '14px', marginBottom: '5px' }}>Job Description</label>
+            <textarea 
+                value={jobDescription} 
+                onChange={(e) => setJobDescription(e.target.value)} 
+                style={{ fontSize: '14px', marginBottom: '15px', padding: '10px', borderRadius: '5px', border: '1px solid gray' }} 
+                aria-label="Job Description" 
+            />
+            <label style={{ fontSize: '14px', marginBottom: '5px' }}>Application Deadline</label>
+            <input 
+                type="date" 
+                value={applicationDeadline} 
+                onChange={(e) => setApplicationDeadline(e.target.value)} 
+                style={{ fontSize: '14px', marginBottom: '15px', padding: '10px', borderRadius: '5px', border: '1px solid gray' }} 
+                aria-label="Application Deadline" 
+            />
+            <label style={{ fontSize: '14px', marginBottom: '5px' }}>Skills Required</label>
+            {skills.map((skill, index) => (
+                <input 
+                    key={index} 
+                    type="text" 
+                    value={skill} 
+                    onChange={(e) => handleSkillChange(index, e.target.value)} 
+                    style={{ fontSize: '14px', marginBottom: '10px', padding: '10px', borderRadius: '5px', border: '1px solid gray' }} 
+                    aria-label={`Skill ${index + 1}`} 
+                />
+            ))}
+            <button type="button" onClick={addSkill} style={{ marginBottom: '15px', backgroundColor: 'lightblue', padding: '10px', borderRadius: '5px', border: 'none' }}>Add Skill</button>
+            <button 
+                type="submit" 
+                style={{
+                    backgroundColor: 'blue', 
+                    color: 'white', 
+                    padding: '10px', 
+                    borderRadius: '5px', 
+                    border: 'none', 
+                    cursor: 'pointer',
+                }}
+                onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'darkblue'}
+                onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'blue'}
+                aria-label="Submit Job Posting"
+            >
+                Submit
+            </button>
+            {feedback && <p style={{ color: 'red' }}>{feedback}</p>}
+        </form>
+    );
 };
 
 export default JobPostingForm;
